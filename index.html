@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+  <meta charset="utf-8" />
+  <title>D3 realtime chart</title>
+  <style>
+    svg {
+      font: 10px sans-serif;
+      fill: rgba(0, 255, 0, 1);
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: rgba(0, 255, 0, 1);
+      shape-rendering: crispEdges;
+    }
+
+    .x.axis line {
+      shape-rendering: auto;
+    }
+
+    .line {
+      fill: none;
+      stroke: rgba(0, 255, 0, 0.8);
+      stroke-width: 0.8px;
+    }
+
+    .bar {
+      fill: rgba(0, 255, 0, 0.6);
+    }
+
+    .area {
+      fill: rgba(0, 255, 0, 0.4);
+    }
+
+    .grid-x {
+      stroke: rgba(0, 255, 0, 0.5);
+      stroke-width: 0.5;
+      stroke-dasharray: 3, 6;
+    }
+
+    .grid-y {
+      stroke: rgba(0, 255, 0, 0.8);
+      stroke-width: 0.8;
+      stroke-dasharray: 6, 3;
+    }
+
+    .chart-label {
+      font-size: 12px;
+      fill: rgba(0, 255, 0, 1);
+      font-family: Arial, sans-serif;
+    }
+
+    .left-label {
+      text-anchor: start;
+    }
+
+    .right-label {
+      text-anchor: end;
+    }
+  </style>
+  <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script type="module">
+    import charts from './dist/d3-realtime-chart.js'
+    const { LineChart, BarChart, AreaChart } = charts
+
+    const config = {
+      n: 60,
+      duration: 750,
+      margin: { top: 6, right: 6, bottom: 20, left: 35 },
+      width: 720,
+      height: 120,
+      ticks: 5,
+      gridx: true,
+      gridy: true,
+    }
+
+    // Example of updating values
+    const random = d3.random.normal(0, 100)
+    const getCurrent = () => {
+      return random()
+    }
+
+    new LineChart('#chart1', getCurrent, config)
+    new LineChart('#chart2', getCurrent, config, 'basis')
+    new BarChart('#chart3', getCurrent, config)
+
+    const config2 = {
+      n: 60,
+      duration: 750,
+      margin: { top: 20, right: 6, bottom: 20, left: 35 },
+      width: 720,
+      height: 120,
+      ticks: 5,
+      gridx: true,
+      gridy: true,
+    }
+    const getCurrent2 = () => {
+      let value = random()
+      let leftText = 'leftText'
+      let rightText = 'rightText'
+      return { leftText, rightText, value }
+    }
+    new AreaChart('#chart4', getCurrent2, config2)
+    new AreaChart('#chart5', getCurrent2, config2, 'basis')
+  </script>
+  <h1>D3 Real-time Chart</h1>
+  <div id="chart-container">
+    <div id="chart1">Chart1 Line linear</div>
+    <div id="chart2">Chart2 Line basis</div>
+    <div id="chart3">Chart3 Bar</div>
+    <div id="chart4">Chart4 Area linear</div>
+    <div id="chart5">Chart5 Area basis</div>
+  </div>
+</html>
